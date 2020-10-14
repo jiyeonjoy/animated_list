@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
-class AnimatedListSample1 extends StatefulWidget {
+class AnimatedListSample4 extends StatefulWidget {
   @override
-  _AnimatedListSample1State createState() => _AnimatedListSample1State();
+  _AnimatedListSample4State createState() => _AnimatedListSample4State();
 }
 
-class _AnimatedListSample1State extends State<AnimatedListSample1> {
+class _AnimatedListSample4State extends State<AnimatedListSample4> {
 
-  // 일단 공통적으로 GlobalKey 필요
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ListModel<int> _list;
   int _selectedItem;
   int _nextItem; // The next item inserted when the user presses the '+' button.
@@ -17,7 +15,6 @@ class _AnimatedListSample1State extends State<AnimatedListSample1> {
   void initState() {
     super.initState();
     _list = ListModel<int>(
-      listKey: _listKey,
       initialItems: <int>[0, 1, 2],
       removedItemBuilder: _buildRemovedItem,
     );
@@ -92,7 +89,7 @@ class _AnimatedListSample1State extends State<AnimatedListSample1> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: AnimatedList(
-          key: _listKey,
+          key: _list.getListKey,
           initialItemCount: _list.length,
           itemBuilder: _buildItem,
         ),
@@ -112,18 +109,18 @@ class _AnimatedListSample1State extends State<AnimatedListSample1> {
 /// [AnimatedListState.insertItem] and [AnimatedList.removeItem].
 class ListModel<E> {
   ListModel({
-    @required this.listKey,
     @required this.removedItemBuilder,
     Iterable<E> initialItems,
-  })  : assert(listKey != null),
-        assert(removedItemBuilder != null),
+  }) : assert(removedItemBuilder != null),
         _items = List<E>.from(initialItems ?? <E>[]);
 
-  final GlobalKey<AnimatedListState> listKey;
+  final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   final dynamic removedItemBuilder;
   final List<E> _items;
 
   AnimatedListState get _animatedList => listKey.currentState;
+
+  GlobalKey<AnimatedListState> get getListKey => listKey;
 
   void insert(int index, E item) {
     _items.insert(index, item);

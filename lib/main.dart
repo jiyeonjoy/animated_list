@@ -1,5 +1,7 @@
 import 'package:animated_list/first/sample1.dart';
 import 'package:animated_list/first/sample2.dart';
+import 'package:animated_list/second/sample3.dart';
+import 'package:animated_list/second/sample4.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,40 +24,36 @@ class MainWidget extends StatelessWidget {
         child: Column(
           children: [
             Spacer(flex: 1,),
-            InkWell(
-              borderRadius: BorderRadius.circular(30),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-                child: Text(
-                  'Sample 1',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              onTap: () async {
-                final result = await Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => AnimatedListSample1())
-                );
-              },
-            ),
-            InkWell(
-              borderRadius: BorderRadius.circular(30),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-                child: Text(
-                  'Sample 2',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              onTap: () async {
-                final result = await Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => AnimatedListSample2())
-                );
-              },
-            ),
+            _buildButton(context, 'Sample 1',
+                    () => Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => AnimatedListSample1()))),
+            _buildButton(context, 'Sample 2',
+                    () => Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => AnimatedListSample2()))),
+            _buildButton(context, 'Sample 3',
+                    () => Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => AnimatedListSample3()))),
+            _buildButton(context, 'Sample 4',
+                    () => Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => AnimatedListSample4()))),
             Spacer(flex: 2,),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildButton(BuildContext context, String title, Function onTap) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(30),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+        child: Text(
+          title,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
+      onTap: onTap
     );
   }
 }
