@@ -2,6 +2,7 @@ import 'package:animated_list/first/sample1.dart';
 import 'package:animated_list/first/sample2.dart';
 import 'package:animated_list/second/sample3.dart';
 import 'package:animated_list/second/sample4.dart';
+import 'package:animated_list/test/gesture_detector.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -36,6 +37,9 @@ class MainWidget extends StatelessWidget {
             _buildButton(context, 'Sample 4',
                     () => Navigator.push(
                     context, MaterialPageRoute(builder: (context) => AnimatedListSample4()))),
+            _buildButton(context, 'GestureDetector Test',
+                    () => Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => GestureDetectorTest()))),
             Spacer(flex: 2,),
           ],
         ),
