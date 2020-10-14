@@ -24,16 +24,29 @@ class _AnimatedListSample4State extends State<AnimatedListSample4> {
   // Used to build list items that haven't been removed.
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    return CardItem(
-      animation: animation,
-      item: _list[index],
-      selected: _selectedItem == _list[index],
-      onTap: () {
-        setState(() {
-          _selectedItem = _selectedItem == _list[index] ? null : _list[index];
-        });
-      },
-    );
+    if(index.isEven) {
+      return CardItem(
+        animation: animation,
+        item: _list[index],
+        selected: _selectedItem == _list[index],
+        onTap: () {
+          setState(() {
+            _selectedItem = _selectedItem == _list[index] ? null : _list[index];
+          });
+        },
+      );
+    } else {
+      return CardItem2(
+        animation: animation,
+        item: _list[index],
+        selected: _selectedItem == _list[index],
+        onTap: () {
+          setState(() {
+            _selectedItem = _selectedItem == _list[index] ? null : _list[index];
+          });
+        },
+      );
+    }
   }
 
   // Used to build an item after it has been removed from the list. This method is
@@ -43,12 +56,21 @@ class _AnimatedListSample4State extends State<AnimatedListSample4> {
   // [AnimatedListRemovedItemBuilder] parameter.
   Widget _buildRemovedItem(
       int item, BuildContext context, Animation<double> animation) {
-    return CardItem(
-      animation: animation,
-      item: item,
-      selected: false,
-      // No gesture detector here: we don't want removed items to be interactive.
-    );
+    if(item.isEven) {
+      return CardItem(
+        animation: animation,
+        item: item,
+        selected: false,
+        // No gesture detector here: we don't want removed items to be interactive.
+      );
+    } else {
+      return CardItem2(
+        animation: animation,
+        item: item,
+        selected: false,
+        // No gesture detector here: we don't want removed items to be interactive.
+      );
+    }
   }
 
   // Insert the "next item" into the list model.
@@ -72,7 +94,7 @@ class _AnimatedListSample4State extends State<AnimatedListSample4> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sample 1'),
+        title: const Text('Sample 4'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add_circle),
@@ -181,6 +203,52 @@ class CardItem extends StatelessWidget {
           onTap: onTap,
           child: SizedBox(
             height: 128.0,
+            child: Card(
+              color: Colors.primaries[item % Colors.primaries.length],
+              child: Center(
+                child: Text('Item $item', style: textStyle),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class CardItem2 extends StatelessWidget {
+  const CardItem2(
+      {Key key,
+        @required this.animation,
+        this.onTap,
+        @required this.item,
+        this.selected: false})
+      : assert(animation != null),
+        assert(item != null && item >= 0),
+        assert(selected != null),
+        super(key: key);
+
+  final Animation<double> animation;
+  final VoidCallback onTap;
+  final int item;
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    TextStyle textStyle = Theme.of(context).textTheme.headline4;
+    if (selected)
+      textStyle = textStyle.copyWith(color: Colors.lightGreenAccent[400]);
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: SizeTransition(
+        axis: Axis.vertical,
+        sizeFactor: animation,
+        child: GestureDetector(
+          behavior: HitTestBehavior.deferToChild,
+          onTap: onTap,
+          child: SizedBox(
+            height: 200.0,
             child: Card(
               color: Colors.primaries[item % Colors.primaries.length],
               child: Center(
