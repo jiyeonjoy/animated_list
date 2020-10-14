@@ -1,5 +1,5 @@
-import 'package:animated_list/sample1.dart';
-import 'package:animated_list/sample2.dart';
+import 'package:animated_list/first/sample1.dart';
+import 'package:animated_list/first/sample2.dart';
 import 'package:flutter/material.dart';
 
 void main() {
